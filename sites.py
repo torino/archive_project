@@ -33,12 +33,7 @@ COMMON_SITES = [
         "lang": "jpn"
     },
     
-# ===== nikoniko =====
-    {
-        "name": "nikoniko",
-        "url": "https://www.nicovideo.jp/",
-        "lang": "jpn"
-    },
+
 # ===== Yahoo　リアルタイム =====
     {
         "name": "yahoo_realtime",
@@ -77,4 +72,10 @@ UNCOMMON_SITES = [
         "url": "https://www.yahoo.co.jp/",
         "lang": "jpn"
     },
+    # ===== nikoniko =====
+    {
+        "name": "nikoniko",
+        "url": "https://www.nicovideo.jp/",
+        "lang": "jpn"
+    }
 ]

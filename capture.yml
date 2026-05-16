@@ -1,0 +1,42 @@
+name: Daily Capture
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 日本時間 毎朝7時
+  workflow_dispatch:        # 手動実行ボタンを有効化
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Pythonセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存ライブラリのインストール
+        run: pip install playwright pillow pytesseract
+
+      - name: Playwrightブラウザのインストール
+        run: playwright install chromium --with-deps
+
+      - name: Tesseractのインストール
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-jpn
+
+      - name: キャプチャ実行
+        run: python main.py
+        env:
+          HEADLESS: "true"
+
+      - name: 結果をArtifactsに保存
+        uses: actions/upload-artifact@v4
+        with:
+          name: capture-${{ github.run_id }}
+          path: data/
+          retention-days: 7

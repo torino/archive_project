@@ -3,6 +3,7 @@ import os
 
 from sites import COMMON_SITES
 from sites import UNCOMMON_SITES
+from utils import today, save_dir, write_log
 
 # 日付取得
 today = datetime.now().strftime("%Y%m%d")
@@ -13,14 +14,6 @@ save_dir = f"data/{today}"
 # AI統合ファイル
 ai_filename = f"{today}_ai.txt"
 ai_path = f"{save_dir}/{ai_filename}"
-
-
-# 共通ログ出力
-def write_log(message):
-
-    now = datetime.now().strftime("%H:%M:%S")
-
-    print(f"[{now}] {message}")
 
 
 # サイト単位の追記
