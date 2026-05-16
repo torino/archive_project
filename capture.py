@@ -43,7 +43,7 @@ def capture_nhk(browser):
         page.goto(ss_url, timeout=60000)
         page.wait_for_timeout(3000)
         try:
-            page.locator("text=サービスを利用しない").click()
+            page.locator("a[data-cl-params*='close']").click(timeout=5000)
         except Exception as e:
             write_log(f"{ss_name}: popup close failed: {e}")
         capture_page(page, ss_name)
@@ -119,7 +119,7 @@ def run_capture():
             capture_site(browser, site)
  
         # 個別サイト
-        capture_nhk(browser)
+#        capture_nhk(browser)  エラー発生のため、とりあえずコメントアウト
         capture_yahoo(browser)
         capture_nikoniko(browser)
         

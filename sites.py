@@ -61,11 +61,11 @@ COMMON_SITES = [
 
 UNCOMMON_SITES = [
 # ===== NHK =====
-    {
-        "name": "nhk",
-        "url": "https://www3.nhk.or.jp/news/",
-        "lang": "jpn"
-    },
+#    {
+#        "name": "nhk",
+#        "url": "https://www3.nhk.or.jp/news/",
+#        "lang": "jpn"
+#    },
 # ===== ヤフー =====
     {
         "name": "yahoo",
