@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: リポジトリをチェックアウト
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Pythonセットアップ
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.6.0
         with:
           python-version: '3.11'
 
@@ -35,7 +35,7 @@ jobs:
           HEADLESS: "true"
 
       - name: 結果をArtifactsに保存
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: capture-${{ github.run_id }}
           path: data/
