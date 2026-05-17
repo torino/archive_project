@@ -2,8 +2,10 @@ name: Daily Capture
 
 on:
   schedule:
-    - cron: '0 22 * * *'  # 日本時間 毎朝7時
-  workflow_dispatch:        # 手動実行ボタンを有効化
+    - cron: '0 22 * * *'   # 日本時間 7時
+    - cron: '0  3 * * *'   # 日本時間  12時
+    - cron: '0 10 * * *'   # 日本時間  19時
+  workflow_dispatch:       # 手動実行ボタンを有効化
 
 jobs:
   capture:
@@ -19,7 +21,7 @@ jobs:
           python-version: '3.11'
 
       - name: 依存ライブラリのインストール
-        run: pip install playwright pillow pytesseract
+        run: pip install playwright pillow pytesseract boto3
 
       - name: Playwrightブラウザのインストール
         run: playwright install chromium --with-deps
@@ -33,7 +35,11 @@ jobs:
         run: python main.py
         env:
           HEADLESS: "true"
-
+          R2_ACCESS_KEY:  ${{ secrets.R2_ACCESS_KEY }}
+          R2_SECRET_KEY:  ${{ secrets.R2_SECRET_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ENDPOINT:    ${{ secrets.R2_ENDPOINT }}
+ 
       - name: 結果をArtifactsに保存
         uses: actions/upload-artifact@v4.6.2
         with:

@@ -3,9 +3,10 @@ from datetime import datetime
  
 # 日付
 today = datetime.now().strftime("%Y%m%d")
- 
+slot  = datetime.now().strftime("%H%M")
+
 # 保存先
-save_dir = f"data/{today}"
+save_dir = f"data/{today}/{slot}"
 os.makedirs(save_dir, exist_ok=True)
  
 # ログファイルパス
