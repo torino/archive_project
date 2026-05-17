@@ -1,9 +1,15 @@
 import os
-from datetime import datetime
- 
+from datetime import datetime, timezone, timedelta
+
+# JSTタイムゾーン定義
+JST = timezone(timedelta(hours=9))
+
+# JSTで取得
+now_jst = datetime.now(JST)
+
 # 日付
-today = datetime.now().strftime("%Y%m%d")
-slot  = datetime.now().strftime("%H%M")
+today = now_jst.strftime("%Y%m%d")
+slot  = now_jst.strftime("%H%M")
 
 # 保存先
 save_dir = f"data/{today}/{slot}"
