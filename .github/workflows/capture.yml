@@ -3,7 +3,6 @@ name: Daily Capture
 on:
   schedule:
     - cron: '0 22 * * *'   # 日本時間 7時
-    - cron: '0  3 * * *'   # 日本時間  12時
     - cron: '0 10 * * *'   # 日本時間  19時
   workflow_dispatch:       # 手動実行ボタンを有効化
 
