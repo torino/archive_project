@@ -1,5 +1,8 @@
 import os
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # JSTタイムゾーン定義
 JST = timezone(timedelta(hours=9))
