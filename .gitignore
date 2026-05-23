@@ -7,10 +7,6 @@ __pycache__/
 # screenshot data
 data/
 
-# html data
-docs/
-
-
 # .gitignoreに追加
 .env
 

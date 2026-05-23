@@ -10,5 +10,6 @@ run_capture()
 run_process()
 build_ai_texts()
 upload_today()
+#generate_html_all()
 
 print("スクショ処理終了")
