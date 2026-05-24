@@ -23,6 +23,64 @@ os.makedirs(DOCS_DIR, exist_ok=True)
 # ===== 全サイトリスト =====
 ALL_SITES = COMMON_SITES + UNCOMMON_SITES
 
+# ===== CSS =====
+CSS = """
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f2eb; --surface: #fff; --border: #d8d0c0;
+      --text: #1a1a1a; --muted: #888; --accent: #2a4a7f;
+      --font-serif: Georgia, '游明朝', serif;
+      --font-sans: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; }
+    header { background: var(--accent); color: #fff; text-align: center; padding: 24px 16px; }
+    header h1 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: normal; letter-spacing: 0.1em; }
+    header p { font-size: 0.8rem; opacity: 0.7; margin-top: 4px; }
+    main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+
+    /* 日付ナビ */
+    .date-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; }
+    .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--accent);
+      padding: 6px 16px; text-decoration: none; font-size: 0.85rem; border-radius: 2px; display: inline-block; }
+    .nav-btn.disabled { color: var(--muted); border-color: var(--border); pointer-events: none; }
+    .current-date { font-family: var(--font-serif); font-size: 1.2rem; color: var(--accent); }
+
+    /* カレンダー */
+    .calendar-wrap { background: var(--surface); border: 1px solid var(--border); padding: 16px; margin-bottom: 24px; }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .calendar-header span { font-family: var(--font-serif); color: var(--accent); }
+    .calendar-header button { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 1rem; padding: 4px 8px; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+    .cal-weekday { font-size: 0.72rem; color: var(--muted); padding: 4px 0 6px; }
+    .cal-day { padding: 5px 2px; font-size: 0.82rem; border-radius: 2px; cursor: pointer; }
+    .cal-day:hover { background: #e8eef7; }
+    .cal-day.inactive { color: var(--muted); pointer-events: none; }
+    .cal-day.current { background: var(--accent); color: #fff; font-weight: bold; }
+    .cal-day.empty { pointer-events: none; }
+
+    /* スロットタブ */
+    .slot-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .slot-tab { background: var(--surface); border: 1px solid var(--border); color: var(--accent);
+      padding: 6px 16px; cursor: pointer; font-size: 0.85rem; border-radius: 2px; }
+    .slot-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* サムネイル */
+    .thumb-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .thumb-card { background: var(--surface); border: 1px solid var(--border); width: 180px; cursor: pointer; transition: box-shadow 0.15s; }
+    .thumb-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .thumb-card img { width: 100%; height: 120px; object-fit: cover; object-position: top; display: block; }
+    .thumb-label { font-size: 0.78rem; color: var(--muted); padding: 5px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* モーダル */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; overflow-y: auto; padding: 24px 16px; }
+    .modal.open { display: block; }
+    .modal img { max-width: 100%; display: block; margin: 0 auto; }
+    .modal-close { position: fixed; top: 16px; right: 20px; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; z-index: 101; }
+
+    /* メタ */
+    .meta { font-size: 0.75rem; color: var(--muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+"""
+
 # ===== ログ =====
 def write_log(message):
     now = datetime.now().strftime("%H:%M:%S")
@@ -50,9 +108,9 @@ def get_slots(date_key):
 def build_thumbnails(date_key, slot):
     html = ""
     for site in ALL_SITES:
-        ss_name    = site["name"]
-        thumb_url  = f"{R2_PUBLIC_URL}/{date_key}/{slot}/{date_key}_{ss_name}_thumb.png"
-        full_url   = f"{R2_PUBLIC_URL}/{date_key}/{slot}/{date_key}_{ss_name}_full.png"
+        ss_name   = site["name"]
+        thumb_url = f"{R2_PUBLIC_URL}/{date_key}/{slot}/{date_key}_{ss_name}_thumb.png"
+        full_url  = f"{R2_PUBLIC_URL}/{date_key}/{slot}/{date_key}_{ss_name}_full.png"
         html += f"""
         <div class="thumb-card" onclick="openModal('{full_url}')">
           <img src="{thumb_url}" alt="{ss_name}" loading="lazy"
@@ -76,12 +134,12 @@ def generate_day_html(date_key):
         return
 
     # スロットタブHTML
-    slot_tabs = ""
+    slot_tabs   = ""
     slot_panels = ""
     for i, slot in enumerate(slots):
         active = "active" if i == 0 else ""
         slot_tabs += f'<button class="slot-tab {active}" onclick="switchSlot(\'{slot}\')" id="tab-{slot}">{slot[:2]}:{slot[2:]}</button>'
-        thumbs = build_thumbnails(date_key, slot)
+        thumbs  = build_thumbnails(date_key, slot)
         display = "block" if i == 0 else "none"
         slot_panels += f'<div class="slot-panel" id="panel-{slot}" style="display:{display}"><div class="thumb-grid">{thumbs}</div></div>'
 
@@ -99,6 +157,7 @@ def generate_day_html(date_key):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>あの日のトップページ - {date_display}</title>
+  <style>{CSS}</style>
 </head>
 <body>
 <header>
@@ -156,7 +215,6 @@ def generate_day_html(date_key):
     document.getElementById("tab-" + slot).classList.add("active");
   }}
 
-  // カレンダー
   let calYear  = parseInt(CURRENT.slice(0,4));
   let calMonth = parseInt(CURRENT.slice(4,6)) - 1;
   const weekdays = ["日","月","火","水","木","金","土"];
@@ -197,94 +255,38 @@ def generate_day_html(date_key):
 
 # ===== 全日付を処理 =====
 def generate_html_all():
-  data_dir = "data"
-  date_dirs = sorted([
-      d for d in os.listdir(data_dir)
-      if os.path.isdir(os.path.join(data_dir, d)) and d.isdigit() and len(d) == 8
-  ])
+    data_dir = "data"
+    date_dirs = sorted([
+        d for d in os.listdir(data_dir)
+        if os.path.isdir(os.path.join(data_dir, d)) and d.isdigit() and len(d) == 8
+    ])
 
-  for date_key in date_dirs:
-      generate_day_html(date_key)
+    for date_key in date_dirs:
+        generate_day_html(date_key)
 
-  # ===== available_dates.json更新 =====
-  with open(DATES_JSON, "w", encoding="utf-8") as f:
-      json.dump(sorted(available_dates), f, ensure_ascii=False, indent=2)
-  write_log("available_dates.json 更新完了")
+    # available_dates.json更新
+    with open(DATES_JSON, "w", encoding="utf-8") as f:
+        json.dump(sorted(available_dates), f, ensure_ascii=False, indent=2)
+    write_log("available_dates.json 更新完了")
 
-  # ===== index.html → 最新日にリダイレクト =====
-  if available_dates:
-      latest = sorted(available_dates)[-1]
-      index_html = f"""<!DOCTYPE html>
-  <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url={latest}.html">
-    <title>あの日のトップページ</title>
-    <p>web archive project</p>
-      <style>
-    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    :root {{
-      --bg: #f5f2eb; --surface: #fff; --border: #d8d0c0;
-      --text: #1a1a1a; --muted: #888; --accent: #2a4a7f;
-      --font-serif: Georgia, '游明朝', serif;
-      --font-sans: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-    }}
-    body {{ background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; }}
-    header {{ background: var(--accent); color: #fff; text-align: center; padding: 24px 16px; }}
-    header h1 {{ font-family: var(--font-serif); font-size: 1.5rem; font-weight: normal; letter-spacing: 0.1em; }}
-    header p {{ font-size: 0.8rem; opacity: 0.7; margin-top: 4px; }}
-    main {{ max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }}
- 
-    /* 日付ナビ */
-    .date-nav {{ display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; }}
-    .nav-btn {{ background: var(--surface); border: 1px solid var(--border); color: var(--accent);
-      padding: 6px 16px; text-decoration: none; font-size: 0.85rem; border-radius: 2px; }}
-    .nav-btn.disabled {{ color: var(--muted); border-color: var(--border); pointer-events: none; }}
-    .current-date {{ font-family: var(--font-serif); font-size: 1.2rem; color: var(--accent); }}
- 
-    /* カレンダー */
-    .calendar-wrap {{ background: var(--surface); border: 1px solid var(--border); padding: 16px; margin-bottom: 24px; }}
-    .calendar-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }}
-    .calendar-header span {{ font-family: var(--font-serif); color: var(--accent); }}
-    .calendar-header button {{ background: none; border: none; color: var(--accent); cursor: pointer; font-size: 1rem; padding: 4px 8px; }}
-    .calendar-grid {{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }}
-    .cal-weekday {{ font-size: 0.72rem; color: var(--muted); padding: 4px 0 6px; }}
-    .cal-day {{ padding: 5px 2px; font-size: 0.82rem; border-radius: 2px; cursor: pointer; }}
-    .cal-day:hover {{ background: #e8eef7; }}
-    .cal-day.inactive {{ color: var(--muted); pointer-events: none; }}
-    .cal-day.current {{ background: var(--accent); color: #fff; font-weight: bold; }}
-    .cal-day.empty {{ pointer-events: none; }}
- 
-    /* スロットタブ */
-    .slot-tabs {{ display: flex; gap: 8px; margin-bottom: 16px; }}
-    .slot-tab {{ background: var(--surface); border: 1px solid var(--border); color: var(--accent);
-      padding: 6px 16px; cursor: pointer; font-size: 0.85rem; border-radius: 2px; }}
-    .slot-tab.active {{ background: var(--accent); color: #fff; border-color: var(--accent); }}
- 
-    /* サムネイル */
-    .thumb-grid {{ display: flex; flex-wrap: wrap; gap: 12px; }}
-    .thumb-card {{ background: var(--surface); border: 1px solid var(--border); width: 180px; cursor: pointer; transition: box-shadow 0.15s; }}
-    .thumb-card:hover {{ box-shadow: 0 2px 8px rgba(0,0,0,0.12); }}
-    .thumb-card img {{ width: 100%; height: 120px; object-fit: cover; object-position: top; display: block; }}
-    .thumb-label {{ font-size: 0.78rem; color: var(--muted); padding: 5px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
- 
-    /* モーダル */
-    .modal {{ display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; overflow-y: auto; padding: 24px 16px; }}
-    .modal.open {{ display: block; }}
-    .modal img {{ max-width: 100%; display: block; margin: 0 auto; }}
-    .modal-close {{ position: fixed; top: 16px; right: 20px; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; z-index: 101; }}
- 
-    /* メタ */
-    .meta {{ font-size: 0.75rem; color: var(--muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }}
-  </style>
-  </head>
-  <body><p><a href="{latest}.html">最新の日付へ</a></p></body>
-  </html>"""
-      with open(os.path.join(DOCS_DIR, "index.html"), "w", encoding="utf-8") as f:
-          f.write(index_html)
-      write_log(f"index.html → {latest}.html")
+    # index.html → 最新日にリダイレクト
+    if available_dates:
+        latest = sorted(available_dates)[-1]
+        index_html = f"""<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url={latest}.html">
+  <title>あの日のトップページ</title>
+</head>
+<body><p><a href="{latest}.html">最新の日付へ</a></p></body>
+</html>"""
+        with open(os.path.join(DOCS_DIR, "index.html"), "w", encoding="utf-8") as f:
+            f.write(index_html)
+        write_log(f"index.html → {latest}.html")
 
-  print("HTML生成完了")
+    print("HTML生成完了")
+
 
 if __name__ == "__main__":
     generate_html_all()
