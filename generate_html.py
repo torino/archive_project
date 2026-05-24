@@ -220,6 +220,7 @@ def generate_html_all():
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url={latest}.html">
     <title>あの日のトップページ</title>
+    <p>web archive project</p>
       <style>
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
     :root {{
