@@ -114,7 +114,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .brand-title {
@@ -731,6 +732,31 @@ main {
   }
   .modal-nav-prev { left: 8px; }
   .modal-nav-next { right: 8px; }
+}
+
+/* Mobile: スマホ向けヘッダーレイアウト調整 */
+@media (max-width: 640px) {
+  header {
+    padding: 12px 16px;
+  }
+
+  /* タイトルと検索欄を縦積みに切り替え */
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* 検索欄エリアを横幅いっぱいに広げる */
+  .header-controls {
+    width: 100%;
+  }
+
+  /* 検索コンテナを横幅いっぱいに */
+  .search-container {
+    width: 100%;
+    flex-grow: 1;
+  }
 }
 
 /* Footer Section */
