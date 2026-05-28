@@ -2,54 +2,28 @@
 
 COMMON_SITES = [
 
-
-# ===== 首相官邸 =====
+# ===== msn =====
     {
-        "name": "go_kantei",
-        "url": "https://www.kantei.go.jp/",
+        "name": "msn",
+        "url": "https://www.msn.com/ja-jp",
         "lang": "jpn"
     },
-# ===== 内閣府 =====
+# ===== bing =====
     {
-        "name": "go_cao",
-        "url": "https://www.cao.go.jp/",
+        "name": "bing",
+        "url": "https://www.bing.com/?cc=jp",
         "lang": "jpn"
     },
-# ===== デジタル庁 =====
+# ===== reuters =====
     {
-        "name": "go_digital",
-        "url": "https://www.digital.go.jp/",
+        "name": "reuters",
+        "url": "https://jp.reuters.com/",
         "lang": "jpn"
     },
-# ===== 外務省 =====
+# ===== afpbb =====
     {
-        "name": "go_mofa",
-        "url": "https://www.mofa.go.jp/mofaj/index.html",
-        "lang": "jpn"
-    },
-# ===== 厚生労働省 =====
-    {
-        "name": "go_mhlw",
-        "url": "https://www.mhlw.go.jp/index.html",
-        "lang": "jpn"
-    },
-# ===== 財務省 =====
-    {
-        "name": "go_mof",
-        "url": "https://www.mof.go.jp/index.htm",
-        "lang": "jpn"
-    },
-# ===== oricon =====
-    {
-        "name": "oricon",
-        "url": "https://www.oricon.co.jp/",
-        "lang": "jpn"
-    },
-    
-# ===== 映画ドットコム =====
-    {
-        "name": "eigacom",
-        "url": "https://eiga.com/",
+        "name": "afpbb",
+        "url": "https://www.afpbb.com/",
         "lang": "jpn"
     },
 
@@ -59,7 +33,44 @@ COMMON_SITES = [
         "url": "https://search.yahoo.co.jp/realtime",
         "lang": "jpn"
     },
+# ===== 日経 =====
+    {
+        "name": "nikkei",
+        "url": "https://www.nikkei.com/",
+        "lang": "jpn"
+    },
+# ===== ウェザーニュース =====
+    {
+        "name": "weathernews",
+        "url": "https://weathernews.jp/",
+        "lang": "jpn"
+    },
+# ===== tenki.jp =====
+    {
+        "name": "tenkijp",
+        "url": "https://tenki.jp/",
+        "lang": "jpn"
+    },
+# ===== はてなブックマーク =====
+    {
+        "name": "hatena",
+        "url": "https://b.hatena.ne.jp/",
+        "lang": "jpn"
+    },
+# ===== note =====
+    {
+        "name": "note",
+        "url": "https://note.com/",
+        "lang": "jpn"
+    },
 
+# ===== oricon =====
+    {
+        "name": "oricon",
+        "url": "https://www.oricon.co.jp/",
+        "lang": "jpn"
+    },
+    
 
 # ===== qiita =====
     {
@@ -74,6 +85,13 @@ COMMON_SITES = [
         "url": "https://booklog.jp/",
         "lang": "jpn"
     },
+# ===== 映画ドットコム =====
+    {
+        "name": "eigacom",
+        "url": "https://eiga.com/",
+        "lang": "jpn"
+    },
+
 
 # ===== Amazon =====
     {
@@ -161,24 +179,6 @@ COMMON_SITES = [
         "url": "https://tenshoku.mynavi.jp/kansai/list/p27/",
         "lang": "jpn"
     },
-# ===== 日経 =====
-    {
-        "name": "nikkei",
-        "url": "https://www.nikkei.com/",
-        "lang": "jpn"
-    },
-# ===== ウェザーニュース =====
-    {
-        "name": "weathernews",
-        "url": "https://weathernews.jp/",
-        "lang": "jpn"
-    },
-# ===== tenki.jp =====
-    {
-        "name": "tenkijp",
-        "url": "https://tenki.jp/",
-        "lang": "jpn"
-    },
 # ===== google =====
     {
         "name": "google",
@@ -191,18 +191,7 @@ COMMON_SITES = [
         "url": "https://www.reddit.com/r/popular/",
         "lang": "eng"
     },
-# ===== はてなブックマーク =====
-    {
-        "name": "hatena",
-        "url": "https://b.hatena.ne.jp/",
-        "lang": "jpn"
-    },
-# ===== note =====
-    {
-        "name": "note",
-        "url": "https://note.com/",
-        "lang": "jpn"
-    },
+
 # ===== chatgpt =====
     {
         "name": "chatgpt",
@@ -220,6 +209,42 @@ COMMON_SITES = [
         "name": "claude",
         "url": "https://claude.ai/login",
         "lang": "eng"
+    },
+    # ===== 首相官邸 =====
+    {
+        "name": "go_kantei",
+        "url": "https://www.kantei.go.jp/",
+        "lang": "jpn"
+    },
+    # ===== 内閣府 =====
+    {
+        "name": "go_cao",
+        "url": "https://www.cao.go.jp/",
+        "lang": "jpn"
+    },
+# ===== デジタル庁 =====
+    {
+        "name": "go_digital",
+        "url": "https://www.digital.go.jp/",
+        "lang": "jpn"
+    },
+# ===== 外務省 =====
+    {
+        "name": "go_mofa",
+        "url": "https://www.mofa.go.jp/mofaj/index.html",
+        "lang": "jpn"
+    },
+# ===== 厚生労働省 =====
+    {
+        "name": "go_mhlw",
+        "url": "https://www.mhlw.go.jp/index.html",
+        "lang": "jpn"
+    },
+# ===== 財務省 =====
+    {
+        "name": "go_mof",
+        "url": "https://www.mof.go.jp/index.htm",
+        "lang": "jpn"
     },
 ]
 
