@@ -1,17 +1,17 @@
 """
 generate_html.py
-R2上の画像を参照したHTMLを生成する。
-出力先: docs/{date}.html + docs/index.html
+R2上の画像・テキストを参照するためのメタデータ available_dates.json を生成する。
+SPA (Single Page Application) で動的に読み込む設定ファイルとなります。
 """
 
 import os
 import json
-from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from sites import COMMON_SITES, UNCOMMON_SITES
+# r2_uploadモジュールから構造取得関数をインポート
+from r2_upload import get_r2_archive_structure
 
 # ===== 設定 =====
 R2_PUBLIC_URL = os.environ.get("R2_PUBLIC_URL", "")
@@ -20,273 +20,47 @@ DATES_JSON    = os.path.join(DOCS_DIR, "available_dates.json")
 
 os.makedirs(DOCS_DIR, exist_ok=True)
 
-# ===== 全サイトリスト =====
-ALL_SITES = COMMON_SITES + UNCOMMON_SITES
 
-# ===== CSS =====
-CSS = """
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #f5f2eb; --surface: #fff; --border: #d8d0c0;
-      --text: #1a1a1a; --muted: #888; --accent: #2a4a7f;
-      --font-serif: Georgia, '游明朝', serif;
-      --font-sans: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+def generate_available_dates_json():
+    print("available_dates.json の生成を開始します...")
+    
+    # 1. R2からアップロード済みの {日付: [スロットリスト]} 構造を取得 (API経由)
+    archive_structure = get_r2_archive_structure()
+    
+    # 2. ローカルの data/ フォルダも走査してマージ (GitHub Actionsカレント実行分やローカル開発用)
+    if os.path.exists("data"):
+        for date_key in os.listdir("data"):
+            date_dir = os.path.join("data", date_key)
+            if os.path.isdir(date_dir) and date_key.isdigit() and len(date_key) == 8:
+                slots = []
+                for slot in os.listdir(date_dir):
+                    if os.path.isdir(os.path.join(date_dir, slot)) and slot.isdigit():
+                        slots.append(slot)
+                
+                if slots:
+                    if date_key in archive_structure:
+                        # R2の既存データとローカル取得分をマージして重複排除
+                        merged_slots = list(set(archive_structure[date_key] + slots))
+                        archive_structure[date_key] = sorted(merged_slots)
+                    else:
+                        archive_structure[date_key] = sorted(slots)
+                        
+    # 3. 構造を保存用のデータ辞書に整形
+    data = {
+        "r2_public_url": R2_PUBLIC_URL,
+        "dates": archive_structure
     }
-    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; }
-    header { background: var(--accent); color: #fff; text-align: center; padding: 24px 16px; }
-    header h1 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: normal; letter-spacing: 0.1em; }
-    header p { font-size: 0.8rem; opacity: 0.7; margin-top: 4px; }
-    main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
-
-    /* 日付ナビ */
-    .date-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; }
-    .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--accent);
-      padding: 6px 16px; text-decoration: none; font-size: 0.85rem; border-radius: 2px; display: inline-block; }
-    .nav-btn.disabled { color: var(--muted); border-color: var(--border); pointer-events: none; }
-    .current-date { font-family: var(--font-serif); font-size: 1.2rem; color: var(--accent); }
-
-    /* カレンダー */
-    .calendar-wrap { background: var(--surface); border: 1px solid var(--border); padding: 16px; margin-bottom: 24px; }
-    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .calendar-header span { font-family: var(--font-serif); color: var(--accent); }
-    .calendar-header button { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 1rem; padding: 4px 8px; }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
-    .cal-weekday { font-size: 0.72rem; color: var(--muted); padding: 4px 0 6px; }
-    .cal-day { padding: 5px 2px; font-size: 0.82rem; border-radius: 2px; cursor: pointer; }
-    .cal-day:hover { background: #e8eef7; }
-    .cal-day.inactive { color: var(--muted); pointer-events: none; }
-    .cal-day.current { background: var(--accent); color: #fff; font-weight: bold; }
-    .cal-day.empty { pointer-events: none; }
-
-    /* スロットタブ */
-    .slot-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-    .slot-tab { background: var(--surface); border: 1px solid var(--border); color: var(--accent);
-      padding: 6px 16px; cursor: pointer; font-size: 0.85rem; border-radius: 2px; }
-    .slot-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    /* サムネイル */
-    .thumb-grid { display: flex; flex-wrap: wrap; gap: 12px; }
-    .thumb-card { background: var(--surface); border: 1px solid var(--border); width: 180px; cursor: pointer; transition: box-shadow 0.15s; }
-    .thumb-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
-    .thumb-card img { width: 100%; height: 120px; object-fit: cover; object-position: top; display: block; }
-    .thumb-label { font-size: 0.78rem; color: var(--muted); padding: 5px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    /* モーダル */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; overflow-y: auto; padding: 24px 16px; }
-    .modal.open { display: block; }
-    .modal img { max-width: 100%; display: block; margin: 0 auto; }
-    .modal-close { position: fixed; top: 16px; right: 20px; background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; z-index: 101; }
-
-    /* メタ */
-    .meta { font-size: 0.75rem; color: var(--muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
-"""
-
-# ===== ログ =====
-def write_log(message):
-    now = datetime.now().strftime("%H:%M:%S")
-    print(f"[{now}] {message}")
-
-# ===== 利用可能日付リスト読み込み =====
-if os.path.exists(DATES_JSON):
-    with open(DATES_JSON, encoding="utf-8") as f:
-        available_dates = json.load(f)
-else:
-    available_dates = []
-
-# ===== data/以下からスロット一覧を取得 =====
-def get_slots(date_key):
-    date_dir = os.path.join("data", date_key)
-    if not os.path.exists(date_dir):
-        return []
-    slots = sorted([
-        d for d in os.listdir(date_dir)
-        if os.path.isdir(os.path.join(date_dir, d)) and d.isdigit()
-    ])
-    return slots
-
-# ===== サムネイルHTML生成 =====
-def build_thumbnails(date_key, slot):
-    html = ""
-    for site in ALL_SITES:
-        ss_name   = site["name"]
-        thumb_url = f"{R2_PUBLIC_URL}/{date_key}/{slot}/{date_key}_{ss_name}_thumb.png"
-        full_url  = f"{R2_PUBLIC_URL}/{date_key}/{slot}/{date_key}_{ss_name}_full.png"
-        html += f"""
-        <div class="thumb-card" onclick="openModal('{full_url}')">
-          <img src="{thumb_url}" alt="{ss_name}" loading="lazy"
-               onerror="this.closest('.thumb-card').style.display='none'">
-          <div class="thumb-label">{ss_name}</div>
-        </div>"""
-    return html
-
-# ===== 1日分のHTML生成 =====
-def generate_day_html(date_key):
-
-    try:
-        dt = datetime.strptime(date_key, "%Y%m%d")
-        date_display = f"{dt.year}年{dt.month}月{dt.day}日"
-    except Exception:
-        date_display = date_key
-
-    slots = get_slots(date_key)
-    if not slots:
-        write_log(f"{date_key}: スロットなし・スキップ")
-        return
-
-    # スロットタブHTML
-    slot_tabs   = ""
-    slot_panels = ""
-    for i, slot in enumerate(slots):
-        active = "active" if i == 0 else ""
-        slot_tabs += f'<button class="slot-tab {active}" onclick="switchSlot(\'{slot}\')" id="tab-{slot}">{slot[:2]}:{slot[2:]}</button>'
-        thumbs  = build_thumbnails(date_key, slot)
-        display = "block" if i == 0 else "none"
-        slot_panels += f'<div class="slot-panel" id="panel-{slot}" style="display:{display}"><div class="thumb-grid">{thumbs}</div></div>'
-
-    # 前後日付
-    idx       = available_dates.index(date_key) if date_key in available_dates else -1
-    prev_date = available_dates[idx - 1] if idx > 0 else None
-    next_date = available_dates[idx + 1] if idx >= 0 and idx < len(available_dates) - 1 else None
-
-    prev_btn = f'<a class="nav-btn" href="{prev_date}.html">◀ 前の日</a>' if prev_date else '<span class="nav-btn disabled">◀ 前の日</span>'
-    next_btn = f'<a class="nav-btn" href="{next_date}.html">次の日 ▶</a>' if next_date else '<span class="nav-btn disabled">次の日 ▶</span>'
-
-    html = f"""<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>あの日のトップページ - {date_display}</title>
-  <style>{CSS}</style>
-</head>
-<body>
-<header>
-  <h1>あの日のトップページ</h1>
-  <p>web archive project</p>
-</header>
-<main>
-
-  <div class="date-nav">
-    {prev_btn}
-    <span class="current-date">{date_display}</span>
-    {next_btn}
-  </div>
-
-  <div class="calendar-wrap">
-    <div class="calendar-header">
-      <button onclick="calPrev()">◀</button>
-      <span id="cal-label"></span>
-      <button onclick="calNext()">▶</button>
-    </div>
-    <div class="calendar-grid" id="cal-grid"></div>
-  </div>
-
-  <div class="slot-tabs">{slot_tabs}</div>
-  {slot_panels}
-
-  <div class="meta">取得日: {date_display} ／ サイト数: {len(ALL_SITES)}</div>
-
-</main>
-
-<div class="modal" id="modal" onclick="closeModal(event)">
-  <button class="modal-close" onclick="closeModalBtn()">✕</button>
-  <img id="modal-img" src="" alt="">
-</div>
-
-<script>
-  const CURRENT = "{date_key}";
-  const DATES   = {json.dumps(sorted(available_dates))};
-
-  function openModal(src) {{
-    document.getElementById("modal-img").src = src;
-    document.getElementById("modal").classList.add("open");
-  }}
-  function closeModal(e) {{ if (e.target === document.getElementById("modal")) closeModalBtn(); }}
-  function closeModalBtn() {{
-    document.getElementById("modal").classList.remove("open");
-    document.getElementById("modal-img").src = "";
-  }}
-  document.addEventListener("keydown", e => {{ if (e.key === "Escape") closeModalBtn(); }});
-
-  function switchSlot(slot) {{
-    document.querySelectorAll(".slot-panel").forEach(p => p.style.display = "none");
-    document.querySelectorAll(".slot-tab").forEach(t => t.classList.remove("active"));
-    document.getElementById("panel-" + slot).style.display = "block";
-    document.getElementById("tab-" + slot).classList.add("active");
-  }}
-
-  let calYear  = parseInt(CURRENT.slice(0,4));
-  let calMonth = parseInt(CURRENT.slice(4,6)) - 1;
-  const weekdays = ["日","月","火","水","木","金","土"];
-
-  function renderCalendar() {{
-    document.getElementById("cal-label").textContent = calYear + "年 " + (calMonth+1) + "月";
-    const grid = document.getElementById("cal-grid");
-    grid.innerHTML = "";
-    weekdays.forEach(d => {{ const el = document.createElement("div"); el.className="cal-weekday"; el.textContent=d; grid.appendChild(el); }});
-    const first = new Date(calYear, calMonth, 1).getDay();
-    const days  = new Date(calYear, calMonth+1, 0).getDate();
-    for (let i=0; i<first; i++) {{ const el=document.createElement("div"); el.className="cal-day empty"; grid.appendChild(el); }}
-    for (let d=1; d<=days; d++) {{
-      const key = calYear + String(calMonth+1).padStart(2,"0") + String(d).padStart(2,"0");
-      const el  = document.createElement("div");
-      el.textContent = d;
-      if (key === CURRENT) {{ el.className="cal-day current"; }}
-      else if (DATES.includes(key)) {{ el.className="cal-day"; el.onclick=()=>location.href=key+".html"; }}
-      else {{ el.className="cal-day inactive"; }}
-      grid.appendChild(el);
-    }}
-  }}
-  function calPrev() {{ if(calMonth===0){{calYear--;calMonth=11;}}else{{calMonth--;}} renderCalendar(); }}
-  function calNext() {{ if(calMonth===11){{calYear++;calMonth=0;}}else{{calMonth++;}} renderCalendar(); }}
-  renderCalendar();
-</script>
-</body>
-</html>"""
-
-    out_path = os.path.join(DOCS_DIR, f"{date_key}.html")
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(html)
-    write_log(f"HTML生成完了: {out_path}")
-
-    if date_key not in available_dates:
-        available_dates.append(date_key)
-
-
-# ===== 全日付を処理 =====
-def generate_html_all():
-    data_dir = "data"
-    date_dirs = sorted([
-        d for d in os.listdir(data_dir)
-        if os.path.isdir(os.path.join(data_dir, d)) and d.isdigit() and len(d) == 8
-    ])
-
-    for date_key in date_dirs:
-        generate_day_html(date_key)
-
-    # available_dates.json更新
+    
+    # 4. JSONとして書き出し
     with open(DATES_JSON, "w", encoding="utf-8") as f:
-        json.dump(sorted(available_dates), f, ensure_ascii=False, indent=2)
-    write_log("available_dates.json 更新完了")
-
-    # index.html → 最新日にリダイレクト
-    if available_dates:
-        latest = sorted(available_dates)[-1]
-        index_html = f"""<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url={latest}.html">
-  <title>あの日のトップページ</title>
-</head>
-<body><p><a href="{latest}.html">最新の日付へ</a></p></body>
-</html>"""
-        with open(os.path.join(DOCS_DIR, "index.html"), "w", encoding="utf-8") as f:
-            f.write(index_html)
-        write_log(f"index.html → {latest}.html")
-
-    print("HTML生成完了")
+        json.dump(data, f, ensure_ascii=False, indent=2)
+        
+    print(f"available_dates.json を更新しました: {DATES_JSON}")
+    print(f"R2 Public URL: {R2_PUBLIC_URL}")
+    print(f"合計収録日数: {len(archive_structure)} 日")
+    for date_key, slots in sorted(archive_structure.items())[-5:]:
+        print(f"  - {date_key}: {slots}")
 
 
 if __name__ == "__main__":
-    generate_html_all()
+    generate_available_dates_json()

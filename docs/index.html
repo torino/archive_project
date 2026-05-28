@@ -2,8 +2,128 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=20260528.html">
-  <title>あの日のトップページ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>あの日のトップページ | Web Archive Project</title>
+  <meta name="description" content="過去の主要ニュースサイトや各種ウェブサイトのトップページを日次でスクショ・OCR保存し、歴史をふりかえる個人向けデジタルアーカイブ。">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body><p><a href="20260528.html">最新の日付へ</a></p></body>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Sticky Header -->
+    <header>
+      <div class="header-content">
+        <div class="brand-title">
+          <h1>あの日のトップページ</h1>
+          <p>Web Archive Project</p>
+        </div>
+        
+        <div class="header-controls">
+          <!-- Real-time Filter Search Bar -->
+          <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="search-bar" class="search-input" placeholder="収集テキストから検索..." aria-label="アーカイブ検索">
+          </div>
+          
+          <!-- Theme Toggle Button (Light/Dark Mode) -->
+          <button id="theme-toggle" class="btn-action" title="テーマ切り替え" aria-label="テーマ切り替え">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Sidebar + Content Grid Layout -->
+    <main>
+      
+      <!-- Sidebar Panel (Calendar & Slots) -->
+      <aside class="sidebar">
+        
+        <!-- Interactive Calendar Widget -->
+        <div class="widget-panel" id="calendar-widget">
+          <h3 class="widget-title"><i class="fa-regular fa-calendar-days"></i> 日付選択</h3>
+          <div class="calendar-header">
+            <button id="cal-prev" aria-label="前月"><i class="fa-solid fa-chevron-left"></i></button>
+            <span id="cal-label">2026年 05月</span>
+            <button id="cal-next" aria-label="翌月"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="calendar-grid" id="cal-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Slot Selection Panel -->
+        <div class="widget-panel" id="slots-widget">
+          <h3 class="widget-title"><i class="fa-regular fa-clock"></i> 取得時間 (スロット)</h3>
+          <div class="slot-list" id="slot-container">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+        
+      </aside>
+
+      <!-- Main Contents Area (Cards) -->
+      <section class="content-area">
+        
+        <!-- Active Date Details Banner -->
+        <div class="archive-title-banner" id="banner-details">
+          <div class="archive-date-display">
+            <h2 id="active-date-str">日付未選択</h2>
+            <span id="active-slot-badge" class="archive-slot-badge" style="display: none;">00:00</span>
+          </div>
+          <div class="archive-meta-stats" id="archive-stats">
+            表示可能なアーカイブはありません
+          </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid" id="cards-container">
+          <!-- Rendered dynamically by app.js -->
+          <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
+            <i class="fa-solid fa-box-open" style="font-size: 3rem; margin-bottom: 16px;"></i>
+            <p>左側のカレンダーから日付を選択してください。</p>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Web Archive Project. All rights reserved. (Hosted via GitHub Pages / R2 Object Storage)</p>
+    </footer>
+
+  </div>
+
+  <!-- Loading State Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <p style="margin-top: 12px; font-weight: 500;">読み込み中...</p>
+  </div>
+
+  <!-- Screenshot Zoom Lightbox Modal -->
+  <div class="modal" id="screenshot-modal">
+    <button class="modal-close-btn" id="modal-close-btn" aria-label="閉じる"><i class="fa-solid fa-xmark"></i></button>
+    <button class="modal-nav-btn modal-nav-prev" id="modal-prev-btn" aria-label="前へ"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="modal-nav-btn modal-nav-next" id="modal-next-btn" aria-label="次へ"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="modal-content-wrap">
+      <img id="modal-img" src="" alt="スクリーンショット拡大表示">
+    </div>
+  </div>
+
+  <!-- Script Implementation -->
+  <script src="app.js"></script>
+</body>
 </html>

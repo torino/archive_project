@@ -3,16 +3,10 @@ import os
 
 from sites import COMMON_SITES
 from sites import UNCOMMON_SITES
-from utils import today, save_dir, write_log
-
-# 日付取得
-today = datetime.now().strftime("%Y%m%d")
-
-# 保存先
-save_dir = f"data/{today}"
+from utils import today, slot, save_dir, write_log
 
 # AI統合ファイル
-ai_filename = f"{today}_ai.txt"
+ai_filename = f"{today}_{slot}_ai.txt"
 ai_path = f"{save_dir}/{ai_filename}"
 
 

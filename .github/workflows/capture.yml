@@ -10,7 +10,21 @@ jobs:
   capture:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    env:
+      HEADLESS: "true"
+      R2_ACCESS_KEY:  ${{ secrets.R2_ACCESS_KEY }}
+      R2_SECRET_KEY:  ${{ secrets.R2_SECRET_KEY }}
+      R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+      R2_ENDPOINT:    ${{ secrets.R2_ENDPOINT }}
+      R2_PUBLIC_URL:  ${{ vars.R2_PUBLIC_URL }}
 
     steps:
       - name: リポジトリをチェックアウト
@@ -36,12 +50,6 @@ jobs:
 
       - name: キャプチャ実行
         run: python main.py
-        env:
-          HEADLESS: "true"
-          R2_ACCESS_KEY:  ${{ secrets.R2_ACCESS_KEY }}
-          R2_SECRET_KEY:  ${{ secrets.R2_SECRET_KEY }}
-          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
-          R2_ENDPOINT:    ${{ secrets.R2_ENDPOINT }}
  
       - name: 結果をArtifactsに保存
         uses: actions/upload-artifact@v4.6.2
@@ -50,15 +58,17 @@ jobs:
           path: data/
           retention-days: 7
       
-      - name: HTML生成
+      - name: HTML生成 (available_dates.json)
         run: python generate_html.py
-        env:
-          R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
 
-      - name: docs をコミット・プッシュ
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add docs/
-          git diff --staged --quiet || git commit -m "docs: ${{ github.run_id }}"
-          git push
+      - name: Pagesのセットアップ
+        uses: actions/configure-pages@v5.0.0
+
+      - name: Pagesアーティファクトのアップロード
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: docs/
+
+      - name: GitHub Pagesにデプロイ
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
