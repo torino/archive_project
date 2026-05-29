@@ -14,18 +14,6 @@ COMMON_SITES = [
         "url": "https://www.bing.com/?cc=jp",
         "lang": "jpn"
     },
-# ===== reuters =====
-    {
-        "name": "reuters",
-        "url": "https://jp.reuters.com/",
-        "lang": "jpn"
-    },
-# ===== afpbb =====
-    {
-        "name": "afpbb",
-        "url": "https://www.afpbb.com/",
-        "lang": "jpn"
-    },
 
 # ===== Yahoo　リアルタイム =====
     {
@@ -92,6 +80,18 @@ COMMON_SITES = [
         "lang": "jpn"
     },
 
+# ===== reuters =====
+    {
+        "name": "reuters",
+        "url": "https://jp.reuters.com/",
+        "lang": "jpn"
+    },
+# ===== afpbb =====
+    {
+        "name": "afpbb",
+        "url": "https://www.afpbb.com/",
+        "lang": "jpn"
+    },
 
 # ===== Amazon =====
     {

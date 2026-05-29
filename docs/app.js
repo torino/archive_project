@@ -421,13 +421,14 @@ async function selectSlot(slotKey) {
 }
 
 const FALLBACK_SITE_NAMES = [
-  "go_kantei", "go_cao", "go_digital", "go_mofa", "go_mhlw", "go_mof",
-  "oricon", "eigacom", "yahoo_realtime", "qiita", "booklog", "amazon",
+  "yahoo","msn", "bing", "yahoo_realtime", "nikkei", "weathernews", "tenkijp",
+  "hatena", "note", "oricon", "qiita", "nikoniko",
+  "eigacom", "booklog", "reuters", "afpbb", "amazon",
   "zozo", "uniqlo", "seveneleven", "lawson", "takashimaya", "maruetsu",
   "yodobashi", "rakuten", "mercari", "rikunabi_tokyo", "rikunabi_osaka",
-  "mynavi_tokyo", "mynavi_osaka", "nikkei", "weathernews", "tenkijp",
-  "google", "reddit", "hatena", "note", "chatgpt", "gemini", "claude",
-  "yahoo", "nikoniko"
+  "mynavi_tokyo", "mynavi_osaka",
+  "go_kantei", "go_cao", "go_digital", "go_mofa", "go_mhlw", "go_mof",
+  "google", "reddit", "chatgpt", "gemini", "claude"   
 ];
 
 async function fetchSlotMetadata(dateKey, slotKey) {
