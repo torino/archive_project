@@ -421,13 +421,13 @@ async function selectSlot(slotKey) {
 }
 
 const FALLBACK_SITE_NAMES = [
-  "yahoo","msn", "bing", "yahoo_realtime", "nikkei", "weathernews", "tenkijp",
+  "yahoo","msn", "bing", "yahoo_realtime", "nikkei", "nikkei_marketdata", "weathernews", "tenkijp",
   "hatena", "note", "oricon", "qiita", "nikoniko",
   "eigacom", "booklog", "reuters", "afpbb", "amazon",
   "zozo", "uniqlo", "seveneleven", "lawson", "takashimaya", "maruetsu",
   "yodobashi", "rakuten", "mercari", "rikunabi_tokyo", "rikunabi_osaka",
   "mynavi_tokyo", "mynavi_osaka",
-  "go_kantei", "go_cao", "go_digital", "go_mofa", "go_mhlw", "go_mof",
+  "go_kantei",  "gov-online","go_cao", "go_digital", "go_mhlw", "go_mof",
   "google", "reddit", "chatgpt", "gemini", "claude"   
 ];
 
@@ -609,3 +609,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   loadConfigAndInit();
 });
+
+
+// べた書きを削除して、初期化時に設定
+document.getElementById("cal-label").textContent =
+  calYear + "年 " + String(calMonth + 1).padStart(2, "0") + "月";

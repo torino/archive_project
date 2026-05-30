@@ -136,10 +136,10 @@ COMMON_SITES = [
         "url": "https://od.ignica.com/maruetsu",
         "lang": "jpn"
     },
-# ===== ヨドバシオンライン =====
+# ===== 価格ドットコム =====
     {
-        "name": "yodobashi",
-        "url": "https://www.yodobashi.com/",
+        "name": "kakaku",
+        "url": "https://kakaku.com/",
         "lang": "jpn"
     },
 # ===== 楽天 =====
@@ -213,7 +213,7 @@ COMMON_SITES = [
     # ===== 首相官邸 =====
     {
         "name": "go_kantei",
-        "url": "https://www.kantei.go.jp/",
+        "url": "https://www.kantei.go.jp/jp/news/index.html",
         "lang": "jpn"
     },
     # ===== 内閣府 =====
@@ -228,10 +228,10 @@ COMMON_SITES = [
         "url": "https://www.digital.go.jp/",
         "lang": "jpn"
     },
-# ===== 外務省 =====
+# ===== 政府広報 =====
     {
-        "name": "go_mofa",
-        "url": "https://www.mofa.go.jp/mofaj/index.html",
+        "name": "gov-online",
+        "url": "https://www.gov-online.go.jp/info/",
         "lang": "jpn"
     },
 # ===== 厚生労働省 =====
@@ -244,6 +244,12 @@ COMMON_SITES = [
     {
         "name": "go_mof",
         "url": "https://www.mof.go.jp/index.htm",
+        "lang": "jpn"
+    },
+# ===== 市況情報 =====
+    {
+        "name": "nikkei_marketdata",
+        "url": "https://www.nikkei.com/marketdata/global-overview/",
         "lang": "jpn"
     },
 ]
