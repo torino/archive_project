@@ -326,7 +326,8 @@ async function loadConfigAndInit() {
   showLoading(true);
   try {
     // Fetch available_dates.json config from docs directory
-    const response = await fetch("available_dates.json");
+    const R2_BASE = "https://pub-587312c4b5ee480ab08db11b947dd956.r2.dev";
+    const response = await fetch(`${R2_BASE}/available_dates.json`);
     if (!response.ok) {
       throw new Error(`Failed to load date config. Status: ${response.status}`);
     }
