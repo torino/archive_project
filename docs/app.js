@@ -422,7 +422,7 @@ async function selectSlot(slotKey) {
 }
 
 const FALLBACK_SITE_NAMES = [
-  "yahoo","msn", "bing", "yahoo_realtime", "nikkei", "nikkei_marketdata", "weathernews", "tenkijp",
+  "yahoo", "msn", "bing", "yahoo_realtime", "nikkei", "nikkei_marketdata", "weathernews", "tenkijp",
   "hatena", "note", "oricon", "qiita", "nikoniko",
   "eigacom", "booklog", "reuters", "afpbb", "amazon",
   "zozo", "uniqlo", "seveneleven", "lawson", "takashimaya", "maruetsu",
