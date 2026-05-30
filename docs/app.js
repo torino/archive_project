@@ -362,7 +362,7 @@ async function loadConfigAndInit() {
       calendarState.year = parseInt(initialDate.slice(0, 4));
       calendarState.month = parseInt(initialDate.slice(4, 6)) - 1;
       
-      await selectDate(initialDate, false); // select without reloading config
+      await selectDate(initialDate, true); // select without reloading config
     } else {
       renderCalendar();
       showLoading(false);
@@ -610,7 +610,3 @@ document.addEventListener("DOMContentLoaded", () => {
   loadConfigAndInit();
 });
 
-
-// べた書きを削除して、初期化時に設定
-document.getElementById("cal-label").textContent =
-  calYear + "年 " + String(calMonth + 1).padStart(2, "0") + "月";
