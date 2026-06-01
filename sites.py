@@ -21,6 +21,25 @@ COMMON_SITES = [
         "url": "https://search.yahoo.co.jp/realtime",
         "lang": "jpn"
     },
+# ===== はてなブックマーク =====
+    {
+        "name": "hatena",
+        "url": "https://b.hatena.ne.jp/",
+        "lang": "jpn"
+    },
+# ===== note =====
+    {
+        "name": "note",
+        "url": "https://note.com/",
+        "lang": "jpn"
+    },
+
+# ===== wikipedia　メインページ =====
+    {
+        "name": "wikipedia",
+        "url": "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8",
+        "lang": "jpn"
+    },
 # ===== 日経 =====
     {
         "name": "nikkei",
@@ -39,16 +58,22 @@ COMMON_SITES = [
         "url": "https://tenki.jp/",
         "lang": "jpn"
     },
-# ===== はてなブックマーク =====
+# ===== JR東日本 =====
     {
-        "name": "hatena",
-        "url": "https://b.hatena.ne.jp/",
+        "name": "jreast",
+        "url": "https://www.jreast.co.jp/",
         "lang": "jpn"
     },
-# ===== note =====
+# ===== JR西日本 =====
     {
-        "name": "note",
-        "url": "https://note.com/",
+        "name": "westjr",
+        "url": "https://www.westjr.co.jp/",
+        "lang": "jpn"
+    },
+# ===== 東京メトロ =====
+    {
+        "name": "tokyometro",
+        "url": "https://www.tokyometro.jp/index.html",
         "lang": "jpn"
     },
 
@@ -58,8 +83,13 @@ COMMON_SITES = [
         "url": "https://www.oricon.co.jp/",
         "lang": "jpn"
     },
-    
 
+# ===== github_trending =====
+    {
+        "name": "github_trending",
+        "url": "https://github.com/trending",
+        "lang": "jpn"
+    },
 # ===== qiita =====
     {
         "name": "qiita",
@@ -79,12 +109,30 @@ COMMON_SITES = [
         "url": "https://eiga.com/",
         "lang": "jpn"
     },
+# ===== steam =====
+    {
+        "name": "steam",
+        "url": "https://store.steampowered.com/?l=japanese",
+        "lang": "jpn"
+    },
+# ===== dlsite =====
+    {
+        "name": "dlsite",
+        "url": "https://www.dlsite.com/home/",
+        "lang": "jpn"
+    },
 
 # ===== reuters =====
     {
         "name": "reuters",
         "url": "https://jp.reuters.com/",
         "lang": "jpn"
+    },
+# ===== cnn =====
+    {
+        "name": "cnn",
+        "url": "https://edition.cnn.com/",
+        "lang": "eng"
     },
 # ===== afpbb =====
     {
@@ -110,6 +158,12 @@ COMMON_SITES = [
     {
         "name": "uniqlo",
         "url": "https://www.uniqlo.com/jp/ja/",
+        "lang": "jpn"
+    },
+# ===== しまむら =====
+    {
+        "name": "shop-shimamura",
+        "url": "https://www.shop-shimamura.com/",
         "lang": "jpn"
     },
 # ===== セブンイレブン =====
@@ -154,7 +208,12 @@ COMMON_SITES = [
         "url": "https://jp.mercari.com/",
         "lang": "jpn"
     },
-
+# ===== Tver =====
+    {
+        "name": "tver",
+        "url": "https://tver.jp/",
+        "lang": "jpn"
+    },
 # ===== リクナビ東京 =====
     {
         "name": "rikunabi_tokyo",
@@ -191,7 +250,6 @@ COMMON_SITES = [
         "url": "https://www.reddit.com/r/popular/",
         "lang": "eng"
     },
-
 # ===== chatgpt =====
     {
         "name": "chatgpt",
