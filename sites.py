@@ -58,24 +58,24 @@ COMMON_SITES = [
         "url": "https://tenki.jp/",
         "lang": "jpn"
     },
-# ===== JR東日本 =====
-    {
-        "name": "jreast",
-        "url": "https://www.jreast.co.jp/",
-        "lang": "jpn"
-    },
-# ===== JR西日本 =====
-    {
-        "name": "westjr",
-        "url": "https://www.westjr.co.jp/",
-        "lang": "jpn"
-    },
-# ===== 東京メトロ =====
-    {
-        "name": "tokyometro",
-        "url": "https://www.tokyometro.jp/index.html",
-        "lang": "jpn"
-    },
+# # ===== JR東日本 =====
+#     {
+#         "name": "jreast",
+#         "url": "https://www.jreast.co.jp/",
+#         "lang": "jpn"
+#     },
+# # ===== JR西日本 =====
+#     {
+#         "name": "westjr",
+#         "url": "https://www.westjr.co.jp/",
+#         "lang": "jpn"
+#     },
+# # ===== 東京メトロ =====
+#     {
+#         "name": "tokyometro",
+#         "url": "https://www.tokyometro.jp/index.html",
+#         "lang": "jpn"
+#     },
 
 # ===== oricon =====
     {
@@ -122,18 +122,18 @@ COMMON_SITES = [
         "lang": "jpn"
     },
 
-# ===== reuters =====
-    {
-        "name": "reuters",
-        "url": "https://jp.reuters.com/",
-        "lang": "jpn"
-    },
-# ===== cnn =====
-    {
-        "name": "cnn",
-        "url": "https://edition.cnn.com/",
-        "lang": "eng"
-    },
+# # ===== reuters =====
+#     {
+#         "name": "reuters",
+#         "url": "https://jp.reuters.com/",
+#         "lang": "jpn"
+#     },
+# # ===== cnn =====
+#     {
+#         "name": "cnn",
+#         "url": "https://edition.cnn.com/",
+#         "lang": "eng"
+#     },
 # ===== afpbb =====
     {
         "name": "afpbb",
@@ -141,31 +141,31 @@ COMMON_SITES = [
         "lang": "jpn"
     },
 
-# ===== Amazon =====
-    {
-        "name": "amazon",
-        "url": "https://www.amazon.co.jp/",
-        "lang": "jpn"
-    },
+# # ===== Amazon =====
+#     {
+#         "name": "amazon",
+#         "url": "https://www.amazon.co.jp/",
+#         "lang": "jpn"
+#     },
 
-# ===== ZOZOTOWN =====
-    {
-        "name": "zozo",
-        "url": "https://zozo.jp/",
-        "lang": "jpn"
-    },
-# ===== ユニクロ =====
-    {
-        "name": "uniqlo",
-        "url": "https://www.uniqlo.com/jp/ja/",
-        "lang": "jpn"
-    },
-# ===== しまむら =====
-    {
-        "name": "shop-shimamura",
-        "url": "https://www.shop-shimamura.com/",
-        "lang": "jpn"
-    },
+# # ===== ZOZOTOWN =====
+#     {
+#         "name": "zozo",
+#         "url": "https://zozo.jp/",
+#         "lang": "jpn"
+#     },
+# # ===== ユニクロ =====
+#     {
+#         "name": "uniqlo",
+#         "url": "https://www.uniqlo.com/jp/ja/",
+#         "lang": "jpn"
+#     },
+# # ===== しまむら =====
+#     {
+#         "name": "shop-shimamura",
+#         "url": "https://www.shop-shimamura.com/",
+#         "lang": "jpn"
+#     },
 # ===== セブンイレブン =====
     {
         "name": "seveneleven",
@@ -178,30 +178,30 @@ COMMON_SITES = [
         "url": "https://www.lawson.co.jp/",
         "lang": "jpn"
     },
-# ===== 高島屋 =====
-    {
-        "name": "takashimaya",
-        "url": "https://www.takashimaya.co.jp/shopping/",
-        "lang": "jpn"
-    },
+# # ===== 高島屋 =====
+#     {
+#         "name": "takashimaya",
+#         "url": "https://www.takashimaya.co.jp/shopping/",
+#         "lang": "jpn"
+#     },
 # ===== マルエツ =====
     {
         "name": "maruetsu",
         "url": "https://od.ignica.com/maruetsu",
         "lang": "jpn"
     },
-# ===== 価格ドットコム =====
-    {
-        "name": "kakaku",
-        "url": "https://kakaku.com/",
-        "lang": "jpn"
-    },
-# ===== 楽天 =====
-    {
-        "name": "rakuten",
-        "url": "https://www.rakuten.co.jp/",
-        "lang": "jpn"
-    },
+# # ===== 価格ドットコム =====
+#     {
+#         "name": "kakaku",
+#         "url": "https://kakaku.com/",
+#         "lang": "jpn"
+#     },
+# # ===== 楽天 =====
+#     {
+#         "name": "rakuten",
+#         "url": "https://www.rakuten.co.jp/",
+#         "lang": "jpn"
+#     },
 # ===== メルカリ =====
     {
         "name": "mercari",
@@ -214,18 +214,18 @@ COMMON_SITES = [
         "url": "https://tver.jp/",
         "lang": "jpn"
     },
-# ===== リクナビ東京 =====
-    {
-        "name": "rikunabi_tokyo",
-        "url": "https://next.rikunabi.com/job_search/area-tokyo/",
-        "lang": "jpn"
-    },
-# ===== リクナビ大阪 =====
-    {
-        "name": "rikunabi_osaka",
-        "url": "https://next.rikunabi.com/job_search/area-osaka/",
-        "lang": "jpn"
-    },
+# # ===== リクナビ東京 =====
+#     {
+#         "name": "rikunabi_tokyo",
+#         "url": "https://next.rikunabi.com/job_search/area-tokyo/",
+#         "lang": "jpn"
+#     },
+# # ===== リクナビ大阪 =====
+#     {
+#         "name": "rikunabi_osaka",
+#         "url": "https://next.rikunabi.com/job_search/area-osaka/",
+#         "lang": "jpn"
+#     },
 # ===== マイナビ東京 =====
     {
         "name": "mynavi_tokyo",
@@ -244,36 +244,36 @@ COMMON_SITES = [
         "url": "https://www.google.com/",
         "lang": "eng"
     },
-# ===== reddit =====
-    {
-        "name": "reddit",
-        "url": "https://www.reddit.com/r/popular/",
-        "lang": "eng"
-    },
-# ===== chatgpt =====
-    {
-        "name": "chatgpt",
-        "url": "https://chatgpt.com/",
-        "lang": "eng"
-    },
-# ===== gemini =====
-    {
-        "name": "gemini",
-        "url": "https://gemini.google.com/app",
-        "lang": "eng"
-    },
-# ===== claude =====
-    {
-        "name": "claude",
-        "url": "https://claude.ai/login",
-        "lang": "eng"
-    },
-    # ===== 首相官邸 =====
-    {
-        "name": "go_kantei",
-        "url": "https://www.kantei.go.jp/jp/news/index.html",
-        "lang": "jpn"
-    },
+# # ===== reddit =====
+#     {
+#         "name": "reddit",
+#         "url": "https://www.reddit.com/r/popular/",
+#         "lang": "eng"
+#     },
+# # ===== chatgpt =====
+#     {
+#         "name": "chatgpt",
+#         "url": "https://chatgpt.com/",
+#         "lang": "eng"
+#     },
+# # ===== gemini =====
+#     {
+#         "name": "gemini",
+#         "url": "https://gemini.google.com/app",
+#         "lang": "eng"
+#     },
+# # ===== claude =====
+#     {
+#         "name": "claude",
+#         "url": "https://claude.ai/login",
+#         "lang": "eng"
+#     },
+    # # ===== 首相官邸 =====
+    # {
+    #     "name": "go_kantei",
+    #     "url": "https://www.kantei.go.jp/jp/news/index.html",
+    #     "lang": "jpn"
+    # },
     # ===== 内閣府 =====
     {
         "name": "go_cao",
@@ -286,12 +286,12 @@ COMMON_SITES = [
         "url": "https://www.digital.go.jp/",
         "lang": "jpn"
     },
-# ===== 政府広報 =====
-    {
-        "name": "gov-online",
-        "url": "https://www.gov-online.go.jp/info/",
-        "lang": "jpn"
-    },
+# # ===== 政府広報 =====
+#     {
+#         "name": "gov-online",
+#         "url": "https://www.gov-online.go.jp/info/",
+#         "lang": "jpn"
+#     },
 # ===== 厚生労働省 =====
     {
         "name": "go_mhlw",
