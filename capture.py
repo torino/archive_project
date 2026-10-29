@@ -7,9 +7,48 @@ from utils import today, save_dir, write_log
 # ===== GitHub Actions対応：環境変数でheadless切り替え =====
 HEADLESS = os.environ.get("HEADLESS", "false").lower() == "true"
 
+# ===== 遅延読み込み画像の読み込み促進 =====
+def prepare_lazy_images(page):
+
+    write_log("遅延読み込み画像の読み込み開始")
+
+    for _ in range(10):
+        page_height = page.evaluate(
+            "document.documentElement.scrollHeight"
+        )
+        viewport_height = page.evaluate("window.innerHeight")
+
+        # 画面の高さの約80%ずつスクロール
+        step = max(1, int(viewport_height * 0.8))
+
+        for y in range(0, page_height, step):
+            page.evaluate(
+                "(y) => window.scrollTo(0, y)", y
+            )
+            page.wait_for_timeout(300)
+
+        # スクロールによる追加読み込みを待つ
+        page.wait_for_timeout(1000)
+
+        new_height = page.evaluate(
+            "document.documentElement.scrollHeight"
+        )
+
+        # ページの高さが変わらなければ終了
+        if new_height <= page_height:
+            break
+
+    # 撮影位置を先頭に戻す
+    page.evaluate("window.scrollTo(0, 0)")
+    page.wait_for_timeout(1000)
+
+    write_log("遅延読み込み画像の読み込み促進完了")
 
 # ===== フルスクショ + HTML保存 =====
 def capture_page(page, ss_name):
+    
+    # 追加：撮影前に画像の読み込みを促す
+    prepare_lazy_images(page)
 
     full_path = f"{save_dir}/{today}_{ss_name}_full.png"
     html_path = f"{save_dir}/{today}_{ss_name}.html"
