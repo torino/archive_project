@@ -28,7 +28,7 @@ def prepare_lazy_images(page):
             page.wait_for_timeout(300)
 
         # スクロールによる追加読み込みを待つ
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(3000)
 
         new_height = page.evaluate(
             "document.documentElement.scrollHeight"
